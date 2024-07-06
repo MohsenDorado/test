@@ -32,7 +32,7 @@ const AddPost = () => {
         {/* TEXT INPUT */}
         <form  className="flex gap-4">
           <textarea
-            placeholder="What's on your mind?"
+            placeholder="What is on your mind?"
             className="flex-1 bg-slate-100 rounded-lg p-2"
             name="desc"
             onChange={(e) => setDesc(e.target.value)}
