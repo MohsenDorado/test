@@ -11,23 +11,7 @@ const AddPost = () => {
   if (!userId) return;
   console.log(userId);
 
-  const testAction = async (formData: FormData) => {
-    "use server";
-    const desc = formData.get("desc") as string;
 
-    try {
-      const res = await prisma.post.create({
-        data: {
-          userId: userId,
-          desc: desc,
-        },
-      });
-
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div className="p-4 bg-white shadow-md rounded-lg flex gap-4 justify-between text-sm">
@@ -42,7 +26,7 @@ const AddPost = () => {
       {/* POST */}
       <div className="flex-1">
         {/* TEXT INPUT */}
-        <form action={testAction} className="flex gap-4">
+        <form action="" className="flex gap-4">
           <textarea
             placeholder="What is on your mind?"
             className="flex-1 bg-slate-100 rounded-lg p-2"
