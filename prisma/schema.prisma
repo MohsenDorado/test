@@ -9,12 +9,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "mongodb"
+  url= "mongodb+srv://wwwmking3000:2ND243Vh6sWrHefs@insta-1915.zilshwv.mongodb.net/insta-1915"
 }
 
 model User {
-  id                     String          @id
+  id              String @id @map("_id") @db.ObjectId
   username               String          @unique
   avatar                 String?
   cover                  String?
@@ -39,76 +39,76 @@ model User {
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
+id              String @id @default(auto()) @map("_id") @db.ObjectId
   desc      String
   img       String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+  userId    String @db.ObjectId
   comments  Comment[]
   likes     Like[]
 }
 
 model Comment {
-  id        Int      @id @default(autoincrement())
+id              String @id @default(auto()) @map("_id") @db.ObjectId
   desc      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+  userId    String @db.ObjectId
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId    Int
+  postId    String @db.ObjectId
   likes     Like[]
 }
 
 model Like {
-  id        Int      @id @default(autoincrement())
+id              String @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+  userId    String @db.ObjectId
   post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId    Int?
+  postId    String? @db.ObjectId
   Comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  commentId Int?
+  commentId String? @db.ObjectId
 }
 
 model Follower {
-  id          Int      @id @default(autoincrement())
+id              String @id @default(auto()) @map("_id") @db.ObjectId
   createdAt   DateTime @default(now())
   follower    User     @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
-  followerId  String
+  followerId  String @db.ObjectId
   following   User     @relation("UserFollowings", fields: [followingId], references: [id], onDelete: Cascade)
-  followingId String
+  followingId String @db.ObjectId
 }
 
 model FollowRequest {
-  id         Int      @id @default(autoincrement())
+id              String @id @default(auto()) @map("_id") @db.ObjectId
   createdAt  DateTime @default(now())
   sender     User     @relation("FollowRequestsSent", fields: [senderId], references: [id], onDelete: Cascade)
-  senderId   String
+  senderId   String @db.ObjectId
   receiver   User     @relation("FollowRequestsReceived", fields: [receiverId], references: [id], onDelete: Cascade)
-  receiverId String
+  receiverId String @db.ObjectId
 
   @@unique([senderId, receiverId])
 }
 
 model Block {
-  id        Int      @id @default(autoincrement())
+id              String @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   blocker   User     @relation("BlocksSent", fields: [blockerId], references: [id], onDelete: Cascade)
-  blockerId String
+  blockerId String @db.ObjectId
   blocked   User     @relation("BlocksReceived", fields: [blockedId], references: [id], onDelete: Cascade)
-  blockedId String
+  blockedId String @db.ObjectId
 
   @@unique([blockerId, blockedId])
 }
 
 model Story {
-  id        Int      @id @default(autoincrement())
+id              String @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   expiresAt DateTime
   img       String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @unique
+  userId    String   @unique @db.ObjectId
 }
